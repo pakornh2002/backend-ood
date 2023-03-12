@@ -73,13 +73,36 @@ app.post('/insertqr', function (req, res) {
 },)
 
 app.get('/allorder', function (req, res) {
-    connection.query("SELECT * FROM buycourse ORDER BY OrderID",
+    connection.query("SELECT Student_buyID, Course_buyID ,OrderID, sum(Total_price) as Total_price ,Buy_date, Buy_status, orderqr from buycourse where 1 GROUP BY Student_buyID , OrderID, Buy_date, Buy_status, orderqr",
     function (error, results) {
         if (error) throw error;
         res.send(results);
         res.end
     });
   })
+
+
+  app.post('/update-status', function (req, res) {
+    let status = req.body.status
+    let orderid = req.body.orderid
+
+    console.log(orderid);
+
+    connection.query(
+        "update buycourse set Buy_status='"+status+"' where OrderID="+orderid,
+        function (err) {
+            if (err) {
+                throw err;
+            }else{
+                let body = {
+                    status: "success",
+                }
+                res.send(body)
+                res.end()
+            }
+        },
+    )
+},)
 
 //add the router
 app.use("/", router);
