@@ -72,6 +72,15 @@ app.post('/insertqr', function (req, res) {
     )
 },)
 
+app.get('/allorder', function (req, res) {
+    connection.query("SELECT * FROM buycourse ORDER BY OrderID",
+    function (error, results) {
+        if (error) throw error;
+        res.send(results);
+        res.end
+    });
+  })
+
 //add the router
 app.use("/", router);
 app.listen(process.env.port || 3001);
