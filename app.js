@@ -73,7 +73,7 @@ app.post('/insertqr', function (req, res) {
 },)
 
 app.get('/allorder', function (req, res) {
-    connection.query("SELECT Student_buyID, Course_buyID ,OrderID, sum(Total_price) as Total_price ,Buy_date, Buy_status, orderqr from buycourse where 1 GROUP BY Student_buyID , OrderID, Buy_date, Buy_status, orderqr",
+    connection.query("SELECT Student_buyID, OrderID, sum(Total_price) as Total_price ,Buy_date, Buy_status, orderqr from buycourse where 1 GROUP BY Student_buyID , OrderID, Buy_date, Buy_status, orderqr",
     function (error, results) {
         if (error) throw error;
         res.send(results);
